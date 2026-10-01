@@ -1,0 +1,6 @@
+PASS number-guessing-hongocthai main: Release build, 0 warnings, 0 errors
+PASS number-guessing-hongocthai stretch-goals: Release build, 0 warnings, 0 errors
+PASS rock-paper-scissors-hongocthai main: Release build, 0 warnings, 0 errors
+PASS rock-paper-scissors-hongocthai stretch-goals: Release build, 0 warnings, 0 errors
+PASS hangman-hongocthai main: Release build, 0 warnings, 0 errors
+PASS hangman-hongocthai stretch-goals: Release build, 0 warnings, 0 errors
