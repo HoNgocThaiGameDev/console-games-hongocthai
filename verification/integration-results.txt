@@ -1,6 +1,0 @@
-PASS dotnet run: Number Guessing standard, limited, reverse, configuration validation and session best
-PASS dotnet run: Rock Paper Scissors classic and extended modes, match lengths 1 and 9, adaptive history and win-rate comparison
-PASS dotnet run: Hangman copied word file, categories, gallows, letters, whole-word penalties and round reset
-PASS dotnet run: 12 EOF scenarios at configuration, gameplay, feedback and replay prompts
-PASS runnable Hangman binary: words.txt next to executable, missing/empty/invalid fallback and normalized whole-word win
-PASS source review: no code comments or NuGet packages; stretch-goals branches and no remotes
