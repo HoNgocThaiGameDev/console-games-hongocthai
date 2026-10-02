@@ -10,10 +10,10 @@ internal static class Program
         do
         {
             Console.WriteLine();
-            Console.WriteLine("1 - normal game");
-            Console.WriteLine("2 - seven guesses");
-            Console.WriteLine("3 - let the computer guess (1-100)");
-            int? mode = ReadChoice("pick a mode [1-3] > ", 1, 3);
+            Console.WriteLine("1. Standard game");
+            Console.WriteLine("2. Seven guesses");
+            Console.WriteLine("3. Computer guesses your number (1-100)");
+            int? mode = ReadChoice("Choose a mode (1-3): ", 1, 3);
 
             if (mode == null)
             {
@@ -30,10 +30,10 @@ internal static class Program
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("1 - easy   (1-10)");
-                Console.WriteLine("2 - normal (1-100)");
-                Console.WriteLine("3 - hard   (1-1000)");
-                int? difficulty = ReadChoice("pick a difficulty [1-3] > ", 1, 3);
+                Console.WriteLine("1. Easy (1-10)");
+                Console.WriteLine("2. Normal (1-100)");
+                Console.WriteLine("3. Hard (1-1000)");
+                int? difficulty = ReadChoice("Choose a difficulty (1-3): ", 1, 3);
 
                 if (difficulty == null)
                 {
@@ -71,23 +71,23 @@ internal static class Program
         }
         while (AskToPlayAgain());
 
-        Console.WriteLine("thanks for playing :)");
+        Console.WriteLine("Thanks for playing!");
     }
 
     private static bool PlayRound(int secretNumber, int maximum, int? guessLimit, ref int? sessionBest)
     {
         int guessCount = 0;
         Console.WriteLine();
-        Console.WriteLine($"i picked a number from 1 to {maximum}");
+        Console.WriteLine($"I'm thinking of a number between 1 and {maximum}.");
 
         if (guessLimit.HasValue)
         {
-            Console.WriteLine($"you get {guessLimit.Value} guesses");
+            Console.WriteLine($"You have {guessLimit.Value} guesses.");
         }
 
         while (true)
         {
-            Console.Write("your guess > ");
+            Console.Write("Enter your guess: ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -97,13 +97,13 @@ internal static class Program
 
             if (!int.TryParse(input, out int guess))
             {
-                Console.WriteLine("hmm, enter a whole number");
+                Console.WriteLine("Invalid input. Please enter a whole number.");
                 continue;
             }
 
             if (guess < 1 || guess > maximum)
             {
-                Console.WriteLine($"that one is outside 1-{maximum}");
+                Console.WriteLine($"Out of range. Please enter a number between 1 and {maximum}.");
                 continue;
             }
 
@@ -111,11 +111,11 @@ internal static class Program
 
             if (guess > secretNumber)
             {
-                Console.WriteLine($"too high - go lower than {guess}");
+                Console.WriteLine($"Too high! The number is lower than {guess}.");
             }
             else if (guess < secretNumber)
             {
-                Console.WriteLine($"too low - go higher than {guess}");
+                Console.WriteLine($"Too low! The number is higher than {guess}.");
             }
             else
             {
@@ -130,8 +130,8 @@ internal static class Program
                     guessLabel = "guesses";
                 }
 
-                Console.WriteLine($"nice, the number was {secretNumber}!");
-                Console.WriteLine($"you found it in {guessCount} {guessLabel}");
+                Console.WriteLine($"Correct! The number was {secretNumber}.");
+                Console.WriteLine($"You found it in {guessCount} {guessLabel}.");
                 ShowSessionBest(guessCount, ref sessionBest);
                 return true;
             }
@@ -139,11 +139,11 @@ internal static class Program
             if (guessLimit.HasValue)
             {
                 int remaining = guessLimit.Value - guessCount;
-                Console.WriteLine($"guesses left: {remaining}");
+                Console.WriteLine($"Guesses left: {remaining}.");
 
                 if (remaining == 0)
                 {
-                    Console.WriteLine($"out of guesses - the number was {secretNumber}");
+                    Console.WriteLine($"Out of guesses. The number was {secretNumber}.");
                     return true;
                 }
             }
@@ -153,8 +153,8 @@ internal static class Program
     private static bool PlayReverseRound(ref int? sessionBest)
     {
         Console.WriteLine();
-        Console.WriteLine("think of a whole number from 1 to 100");
-        Console.WriteLine("use h for too high, l for too low, or c when i get it");
+        Console.WriteLine("Think of a whole number between 1 and 100.");
+        Console.WriteLine("Answer h if my guess is too high, l if it is too low, or c if it is correct.");
 
         int lower = 1;
         int upper = 100;
@@ -168,7 +168,7 @@ internal static class Program
 
             while (true)
             {
-                Console.Write($"guess #{guessCount}: {guess}  h/l/c? ");
+                Console.Write($"My guess #{guessCount}: {guess} (h/l/c): ");
                 string? input = Console.ReadLine();
 
                 if (input == null)
@@ -183,7 +183,7 @@ internal static class Program
                     break;
                 }
 
-                Console.WriteLine("use h, l or c");
+                Console.WriteLine("Please enter h, l or c.");
             }
 
             if (answer == "c")
@@ -199,7 +199,7 @@ internal static class Program
                     guessLabel = "guesses";
                 }
 
-                Console.WriteLine($"got it - {guess} in {guessCount} {guessLabel}!");
+                Console.WriteLine($"Correct! I found your number, {guess}, in {guessCount} {guessLabel}.");
                 ShowSessionBest(guessCount, ref sessionBest);
                 return true;
             }
@@ -214,7 +214,7 @@ internal static class Program
             }
         }
 
-        Console.WriteLine("those answers don't fit any number from 1 to 100");
+        Console.WriteLine("Your answers do not match any number from 1 to 100.");
         return true;
     }
 
@@ -236,7 +236,7 @@ internal static class Program
             guessLabel = "guesses";
         }
 
-        Console.WriteLine($"best this session: {sessionBest.Value} {guessLabel}");
+        Console.WriteLine($"Best this session: {sessionBest.Value} {guessLabel}.");
     }
 
     private static int? ReadChoice(string prompt, int minimum, int maximum)
@@ -256,7 +256,7 @@ internal static class Program
                 return choice;
             }
 
-            Console.WriteLine($"enter a whole number from {minimum} to {maximum}");
+            Console.WriteLine($"Please enter a whole number from {minimum} to {maximum}.");
         }
     }
 
@@ -264,7 +264,7 @@ internal static class Program
     {
         while (true)
         {
-            Console.Write("play again? [y/n] > ");
+            Console.Write("Play again? (y/n): ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -281,7 +281,7 @@ internal static class Program
                 case "no":
                     return false;
                 default:
-                    Console.WriteLine("just y/yes or n/no here");
+                    Console.WriteLine("Please answer y or n.");
                     break;
             }
         }

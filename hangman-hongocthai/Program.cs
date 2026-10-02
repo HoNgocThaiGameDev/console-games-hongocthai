@@ -5,8 +5,8 @@ internal static class Program
     private static void Main(string[] args)
     {
         Console.WriteLine("=== HANGMAN ===");
-        Console.WriteLine("guess one letter at a time - you have 6 lives");
-        Console.WriteLine("or try the whole word, but a miss costs 2 lives");
+        Console.WriteLine("Guess the word one letter at a time. You have 6 lives.");
+        Console.WriteLine("You can also guess the whole word; a wrong word costs 2 lives.");
         List<WordEntry> words = WordList.Load(Path.Combine(AppContext.BaseDirectory, "words.txt"));
 
         do
@@ -20,7 +20,7 @@ internal static class Program
         }
         while (AskToPlayAgain());
 
-        Console.WriteLine("thanks for playing :)");
+        Console.WriteLine("Thanks for playing!");
     }
 
     private static bool PlayRound(string secretWord, string category)
@@ -30,7 +30,7 @@ internal static class Program
         while (round.Lives > 0 && !round.IsWon())
         {
             PrintState(round);
-            Console.Write("letter or whole word > ");
+            Console.Write("Your guess: ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -44,7 +44,7 @@ internal static class Program
             {
                 if (!WordList.IsValidWord(input))
                 {
-                    Console.WriteLine("use one letter, or a 4-10 letter word (a-z)");
+                    Console.WriteLine("Please enter exactly one letter (A-Z) or a whole word (A-Z).");
                     continue;
                 }
 
@@ -52,7 +52,7 @@ internal static class Program
 
                 if (round.GuessWord(input.ToUpperInvariant()))
                 {
-                    Console.WriteLine("that's the word!");
+                    Console.WriteLine("Correct whole-word guess!");
                 }
                 else
                 {
@@ -68,7 +68,7 @@ internal static class Program
                         lifeLabel = "lives";
                     }
 
-                    Console.WriteLine($"nope - lost {lostLives} {lifeLabel}, {round.Lives} left");
+                    Console.WriteLine($"Wrong word. You lost {lostLives} {lifeLabel}. Lives left: {round.Lives}.");
                 }
 
                 continue;
@@ -76,13 +76,13 @@ internal static class Program
 
             if (!TryParseLetter(input, out char letter))
             {
-                Console.WriteLine("use one letter, or a 4-10 letter word (a-z)");
+                Console.WriteLine("Please enter exactly one letter (A-Z) or a whole word (A-Z).");
                 continue;
             }
 
             if (!round.TryGuess(letter))
             {
-                Console.WriteLine($"you already tried {letter} - no life lost");
+                Console.WriteLine($"You already tried {letter}. No life lost.");
             }
             else if (secretWord.Contains(letter))
             {
@@ -107,22 +107,22 @@ internal static class Program
                     timeLabel = "times";
                 }
 
-                Console.WriteLine($"good one - {letter} shows up {count} {timeLabel}");
+                Console.WriteLine($"Good guess! {letter} appears {count} {timeLabel}.");
             }
             else
             {
-                Console.WriteLine($"no {letter} this time, {round.Lives} lives left");
+                Console.WriteLine($"Sorry, there is no {letter}. Lives left: {round.Lives}.");
             }
         }
 
         PrintState(round);
         if (round.IsWon())
         {
-            Console.WriteLine($"you got it! the word was {secretWord}");
+            Console.WriteLine($"You win! The word was {secretWord}.");
         }
         else
         {
-            Console.WriteLine($"game over - the word was {secretWord}");
+            Console.WriteLine($"You lose! The word was {secretWord}.");
         }
 
         return true;
@@ -165,17 +165,17 @@ internal static class Program
         }
 
         Console.WriteLine(Gallows.Stages[6 - round.Lives]);
-        Console.WriteLine($"category  {round.Category}");
-        Console.WriteLine($"word      {round.GetMaskedWord()}");
-        Console.WriteLine($"lives     {round.Lives}");
-        Console.WriteLine($"tried     {guessedLetters}");
+        Console.WriteLine($"Category: {round.Category}");
+        Console.WriteLine($"Word:    {round.GetMaskedWord()}");
+        Console.WriteLine($"Lives:   {round.Lives}");
+        Console.WriteLine($"Guessed: {guessedLetters}");
     }
 
     private static bool AskToPlayAgain()
     {
         while (true)
         {
-            Console.Write("play again? [y/n] > ");
+            Console.Write("Play again? (y/n): ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -192,7 +192,7 @@ internal static class Program
                 case "no":
                     return false;
                 default:
-                    Console.WriteLine("just y/yes or n/no here");
+                    Console.WriteLine("Please answer y or n.");
                     break;
             }
         }

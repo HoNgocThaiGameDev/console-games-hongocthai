@@ -25,7 +25,7 @@ internal static class WordList
 
         if (!File.Exists(path))
         {
-            Console.WriteLine("couldn't find words.txt, using the built-in words");
+            Console.WriteLine("Could not find words.txt. Using the built-in words.");
             return builtInWords;
         }
 
@@ -77,19 +77,19 @@ internal static class WordList
                     wordLabel = "words";
                 }
 
-                Console.WriteLine($"loaded {words.Count} {wordLabel} from words.txt");
+                Console.WriteLine($"Loaded {words.Count} {wordLabel} from words.txt.");
                 return words;
             }
 
-            Console.WriteLine("no usable words in words.txt, using the built-in words");
+            Console.WriteLine("No usable words in words.txt. Using the built-in words.");
         }
         catch (IOException)
         {
-            Console.WriteLine("couldn't read words.txt, using the built-in words");
+            Console.WriteLine("Could not read words.txt. Using the built-in words.");
         }
         catch (UnauthorizedAccessException)
         {
-            Console.WriteLine("couldn't read words.txt, using the built-in words");
+            Console.WriteLine("Could not read words.txt. Using the built-in words.");
         }
 
         return builtInWords;

@@ -32,7 +32,7 @@ internal class SessionStats
     public void PrintComparison()
     {
         Console.WriteLine("=== SESSION WIN RATES ===");
-        Console.WriteLine("draws are included in the round count");
+        Console.WriteLine("Draws are included in the round count.");
         PrintWinRate("Random", randomWins, randomRounds);
         PrintWinRate("Adaptive", adaptiveWins, adaptiveRounds);
     }
@@ -41,11 +41,11 @@ internal class SessionStats
     {
         if (rounds == 0)
         {
-            Console.WriteLine($"{opponent.ToLowerInvariant()}: no rounds yet");
+            Console.WriteLine($"{opponent}: no rounds yet.");
             return;
         }
 
         double winRate = wins * 100.0 / rounds;
-        Console.WriteLine($"{opponent.ToLowerInvariant()}: {wins}/{rounds} rounds won ({winRate:F1}%)");
+        Console.WriteLine($"{opponent}: {wins}/{rounds} rounds won ({winRate:F1}%).");
     }
 }

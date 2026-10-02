@@ -29,16 +29,16 @@ internal static class Program
         do
         {
             Console.WriteLine();
-            Console.WriteLine("1 - classic");
-            Console.WriteLine("2 - lizard spock");
-            int? gameMode = ReadChoice("pick a game [1-2] > ", 1, 2);
+            Console.WriteLine("1. Classic game");
+            Console.WriteLine("2. Lizard-Spock game");
+            int? gameMode = ReadChoice("Choose a game (1-2): ", 1, 2);
 
             if (gameMode == null)
             {
                 break;
             }
 
-            int? winningScore = ReadChoice("wins needed [1-9] > ", 1, 9);
+            int? winningScore = ReadChoice("How many wins are needed (1-9): ", 1, 9);
 
             if (winningScore == null)
             {
@@ -46,9 +46,9 @@ internal static class Program
             }
 
             Console.WriteLine();
-            Console.WriteLine("1 - random computer");
-            Console.WriteLine("2 - adaptive computer");
-            int? opponent = ReadChoice("pick an opponent [1-2] > ", 1, 2);
+            Console.WriteLine("1. Random computer");
+            Console.WriteLine("2. Adaptive computer");
+            int? opponent = ReadChoice("Choose an opponent (1-2): ", 1, 2);
 
             if (opponent == null)
             {
@@ -79,12 +79,12 @@ internal static class Program
             }
 
             Console.WriteLine();
-            Console.WriteLine($"first to {winningScore.Value} round {winLabel} takes it");
+            Console.WriteLine($"First to {winningScore.Value} round {winLabel} takes the match.");
             Console.WriteLine(GetInputHelp(availableMoves));
 
             if (adaptive)
             {
-                Console.WriteLine("this computer watches what you played earlier");
+                Console.WriteLine("This computer watches the moves you played earlier.");
             }
 
             bool completed = PlayMatch(Random.Shared, availableMoves, winningScore.Value, adaptive, sessionStats);
@@ -97,7 +97,7 @@ internal static class Program
         }
         while (AskToPlayAgain());
 
-        Console.WriteLine("thanks for playing :)");
+        Console.WriteLine("Thanks for playing!");
     }
 
     private static bool PlayMatch(Random random, Move[] availableMoves, int winningScore, bool adaptive, SessionStats sessionStats)
@@ -115,7 +115,7 @@ internal static class Program
         while (playerScore < winningScore && computerScore < winningScore)
         {
             Move computerMove = ChooseComputerMove(random, availableMoves, adaptive, moveCounts);
-            Console.Write($"round {rounds.Count + 1} | your move > ");
+            Console.Write($"Round {rounds.Count + 1} - your move: ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -134,7 +134,7 @@ internal static class Program
 
             if (!TryParseMove(input, out Move playerMove) || !availableMoves.Contains(playerMove))
             {
-                Console.WriteLine($"didn't get that - {GetInputHelp(availableMoves)}");
+                Console.WriteLine($"Unrecognised move. {GetInputHelp(availableMoves)}");
                 continue;
             }
 
@@ -149,20 +149,20 @@ internal static class Program
             {
                 case RoundResult.Win:
                     playerScore++;
-                    message = "you take this round!";
+                    message = "You win this round!";
                     break;
                 case RoundResult.Lose:
                     computerScore++;
-                    message = "computer takes this one";
+                    message = "Computer wins this round.";
                     break;
                 default:
-                    message = "draw - no point this time";
+                    message = "Draw. This round does not count.";
                     break;
             }
 
             string rule = GetRuleMessage(playerMove, computerMove, result);
-            Console.WriteLine($"you: {playerMove} | computer: {computerMove} -> {rule}{message}");
-            Console.WriteLine($"score  you {playerScore} - {computerScore} computer");
+            Console.WriteLine($"You: {playerMove}  |  Computer: {computerMove}  ->  {rule}{message}");
+            Console.WriteLine($"Score: You {playerScore} - {computerScore} Computer");
         }
 
         PrintSummary(rounds, playerScore, computerScore, winningScore, false);
@@ -230,10 +230,10 @@ internal static class Program
     {
         if (availableMoves.Length == 3)
         {
-            return "use r/rock, p/paper, s/scissors or q/quit";
+            return "Enter R (rock), P (paper), S (scissors) or Q to quit the match.";
         }
 
-        return "use r/rock, p/paper, s/scissors, l/lizard, k/spock or q/quit";
+        return "Enter R (rock), P (paper), S (scissors), L (lizard), K (spock) or Q to quit the match.";
     }
 
     private static bool TryParseMove(string input, out Move move)
@@ -310,9 +310,9 @@ internal static class Program
         int loserIndex = GetRuleIndex(loser);
         int distance = (loserIndex - winnerIndex + RuleOrder.Length) % RuleOrder.Length;
         string verb = RuleVerbs[winnerIndex, distance - 1];
-        string winnerName = winner.ToString().ToLowerInvariant();
-        string loserName = loser.ToString().ToLowerInvariant();
-        return $"{winnerName} {verb} {loserName} - ";
+        string winnerName = winner.ToString();
+        string loserName = loser.ToString();
+        return $"{winnerName} {verb} {loserName}. ";
     }
 
     private static int GetRuleIndex(Move move)
@@ -332,7 +332,7 @@ internal static class Program
     {
         Console.WriteLine();
         Console.WriteLine("=== MATCH SUMMARY ===");
-        Console.WriteLine($"{"round",-8}{"you",-12}{"computer",-12}result");
+        Console.WriteLine($"{"Round",-8}{"You",-12}{"Computer",-12}Result");
 
         for (int i = 0; i < rounds.Count; i++)
         {
@@ -340,21 +340,21 @@ internal static class Program
             Console.WriteLine($"{i + 1,-8}{round.PlayerMove,-12}{round.ComputerMove,-12}{round.Result}");
         }
 
-        Console.WriteLine($"final score  you {playerScore} - {computerScore} computer");
+        Console.WriteLine($"Final score: You {playerScore} - {computerScore} Computer");
 
         if (abandoned)
         {
-            Console.WriteLine("match stopped - no winner");
+            Console.WriteLine("Match abandoned. No winner.");
         }
         else
         {
             if (playerScore == winningScore)
             {
-                Console.WriteLine("you win the match!");
+                Console.WriteLine("You win the match!");
             }
             else
             {
-                Console.WriteLine("computer wins the match");
+                Console.WriteLine("Computer wins the match.");
             }
         }
     }
@@ -376,7 +376,7 @@ internal static class Program
                 return choice;
             }
 
-            Console.WriteLine($"enter a whole number from {minimum} to {maximum}");
+            Console.WriteLine($"Please enter a whole number from {minimum} to {maximum}.");
         }
     }
 
@@ -384,7 +384,7 @@ internal static class Program
     {
         while (true)
         {
-            Console.Write("play again? [y/n] > ");
+            Console.Write("Play again? (y/n): ");
             string? input = Console.ReadLine();
 
             if (input == null)
@@ -401,7 +401,7 @@ internal static class Program
                 case "no":
                     return false;
                 default:
-                    Console.WriteLine("just y/yes or n/no here");
+                    Console.WriteLine("Please answer y or n.");
                     break;
             }
         }
