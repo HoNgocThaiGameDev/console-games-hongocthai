@@ -4,5 +4,7 @@ internal enum Move
 {
     Rock,
     Paper,
-    Scissors
+    Scissors,
+    Lizard,
+    Spock
 }
