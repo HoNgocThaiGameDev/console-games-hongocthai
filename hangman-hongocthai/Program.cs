@@ -62,7 +62,7 @@ internal static class Program
             }
             else
             {
-                Console.WriteLine($"Sorry, there is no {letter}. Lives left: {round.Lives}");
+                Console.WriteLine($"Sorry, there is no {letter}. Lives left: {round.Lives}.");
             }
         }
 
