@@ -4,18 +4,21 @@ internal static class Program
 {
     private static readonly Move[] ClassicMoves = { Move.Rock, Move.Paper, Move.Scissors };
     private static readonly Move[] ExtendedMoves = { Move.Rock, Move.Paper, Move.Scissors, Move.Lizard, Move.Spock };
-    private static readonly Dictionary<(Move Winner, Move Loser), string> Rules = new()
+    private static readonly Move[] RuleOrder =
     {
-        [(Move.Scissors, Move.Paper)] = "cuts",
-        [(Move.Paper, Move.Rock)] = "covers",
-        [(Move.Rock, Move.Lizard)] = "crushes",
-        [(Move.Lizard, Move.Spock)] = "poisons",
-        [(Move.Spock, Move.Scissors)] = "smashes",
-        [(Move.Scissors, Move.Lizard)] = "decapitates",
-        [(Move.Lizard, Move.Paper)] = "eats",
-        [(Move.Paper, Move.Spock)] = "disproves",
-        [(Move.Spock, Move.Rock)] = "vaporizes",
-        [(Move.Rock, Move.Scissors)] = "crushes"
+        Move.Rock,
+        Move.Scissors,
+        Move.Lizard,
+        Move.Paper,
+        Move.Spock
+    };
+    private static readonly string[,] RuleVerbs =
+    {
+        { "crushes", "crushes" },
+        { "decapitates", "cuts" },
+        { "eats", "poisons" },
+        { "disproves", "covers" },
+        { "vaporizes", "smashes" }
     };
 
     private static void Main(string[] args)
@@ -270,7 +273,11 @@ internal static class Program
             return RoundResult.Draw;
         }
 
-        if (Rules.ContainsKey((player, computer)))
+        int playerIndex = GetRuleIndex(player);
+        int computerIndex = GetRuleIndex(computer);
+        int distance = (computerIndex - playerIndex + RuleOrder.Length) % RuleOrder.Length;
+
+        if (distance == 1 || distance == 2)
         {
             return RoundResult.Win;
         }
@@ -299,9 +306,26 @@ internal static class Program
             loser = player;
         }
 
+        int winnerIndex = GetRuleIndex(winner);
+        int loserIndex = GetRuleIndex(loser);
+        int distance = (loserIndex - winnerIndex + RuleOrder.Length) % RuleOrder.Length;
+        string verb = RuleVerbs[winnerIndex, distance - 1];
         string winnerName = winner.ToString().ToLowerInvariant();
         string loserName = loser.ToString().ToLowerInvariant();
-        return $"{winnerName} {Rules[(winner, loser)]} {loserName} - ";
+        return $"{winnerName} {verb} {loserName} - ";
+    }
+
+    private static int GetRuleIndex(Move move)
+    {
+        for (int index = 0; index < RuleOrder.Length; index++)
+        {
+            if (RuleOrder[index] == move)
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     private static void PrintSummary(List<Round> rounds, int playerScore, int computerScore, int winningScore, bool abandoned)
