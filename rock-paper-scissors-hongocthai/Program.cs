@@ -4,7 +4,7 @@ internal static class Program
 {
     private const int WinningScore = 3;
 
-    private static void Main()
+    private static void Main(string[] args)
     {
         Console.WriteLine("=== ROCK PAPER SCISSORS ===");
         Console.WriteLine("First to 3 round wins takes the match.");
@@ -70,11 +70,11 @@ internal static class Program
                     message = "Computer wins this round.";
                     break;
                 default:
-                    message = "Draw. This round does not count towards the score.";
+                    message = "Draw. This round does not count.";
                     break;
             }
 
-            Console.WriteLine($"You: {playerMove} | Computer: {computerMove} -> {message}");
+            Console.WriteLine($"You: {playerMove}  |  Computer: {computerMove}  ->  {message}");
             Console.WriteLine($"Score: You {playerScore} - {computerScore} Computer");
         }
 
@@ -148,7 +148,7 @@ internal static class Program
     {
         while (true)
         {
-            Console.Write("Play again? (y/yes or n/no): ");
+            Console.Write("Play again? (y/n): ");
             string? input = Console.ReadLine();
 
             if (input is null)
@@ -165,7 +165,7 @@ internal static class Program
                 case "no":
                     return false;
                 default:
-                    Console.WriteLine("Please answer y/yes or n/no.");
+                    Console.WriteLine("Please answer y or n.");
                     break;
             }
         }

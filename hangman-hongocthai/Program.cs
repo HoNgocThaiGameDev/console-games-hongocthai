@@ -10,7 +10,7 @@ internal static class Program
         "PUZZLE", "BALLOON", "HANGMAN", "RAINBOW", "BICYCLE"
     };
 
-    private static void Main()
+    private static void Main(string[] args)
     {
         Console.WriteLine("=== HANGMAN ===");
         Console.WriteLine("Guess the word one letter at a time. You have 6 lives.");
@@ -109,7 +109,7 @@ internal static class Program
     {
         while (true)
         {
-            Console.Write("Play again? (y/yes or n/no): ");
+            Console.Write("Play again? (y/n): ");
             string? input = Console.ReadLine();
 
             if (input is null)
@@ -126,7 +126,7 @@ internal static class Program
                 case "no":
                     return false;
                 default:
-                    Console.WriteLine("Please answer y/yes or n/no.");
+                    Console.WriteLine("Please answer y or n.");
                     break;
             }
         }
